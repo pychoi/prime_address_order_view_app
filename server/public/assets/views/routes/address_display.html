@@ -1,0 +1,17 @@
+<form name="myForm">
+    <label>Select Name</label><br>
+    <select ng-model="currentName" ng-options="option.name for option in resultsArray" ng-change="getAddress(currentName)">
+    </select>
+</form>
+
+<p>You Have Selected: {{currentName.name}}</p>
+
+<div ng-repeat="address in addressResultsArray">
+    <div class="well col-md-3">
+        <h3>{{address.address_type}} Address:</h3>
+        <p>{{address.address_street}}</p>
+        <p>{{address.address_city}}, {{address.address_state}} {{address.address_zip}}</p>
+        <!--<p>{{address.address_state}}</p>-->
+        <!--<p>{{address.address_zip}}</p>-->
+    </div>
+</div>
