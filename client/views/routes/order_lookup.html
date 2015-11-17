@@ -1,1 +1,28 @@
-<p>order lookup</p>
+<div class="container">
+    <form name="myForm">
+        <label>Select Name</label><br>
+        <select ng-model="currentName" ng-options="option.name for option in resultsArray">
+        </select>
+    </form>
+
+    <label>Enter Start Date</label>
+    <input type="date" ng-model="startDate" placeholder="Enter Start Date">
+
+    <label>Enter End Date</label>
+    <input type="date" ng-model="endDate" placeholder="Enter End Date">
+
+    <button class="btn btn-primary" ng-click="getOrders(startDate, endDate, currentName.id)">Search Orders</button>
+
+    <div ng-repeat="order in ordersResultsArray">
+        <div class="order-container">
+            <p>Customer Name: {{order.name}}</p>
+            <p>Order Date: {{order.order_date | date: "yyyy-MM-dd"}}</p>
+            <p>Order Amount: {{order.amount | currency:"USD$"}}</p>
+            <p>Shipping Address: {{order.address_street}}, {{order.address_city}}, {{order.address_state}} {{order.address_zip}}</p>
+        </div>
+    </div>
+
+    <div ng-show="predicate" class="lead">
+        <p>Total Amount Ordered In This Period: {{totalAmount | currency: "USD$"}}</p>
+    </div>
+</div>

@@ -35,13 +35,37 @@ app.get('/name', function(req, res){
 });
 
 app.get('/address', function(req,res){
-    console.log(req.query);
-
     var results = [];
 
     pg.connect(connectionString, function(err, client){
         var query = client.query("SELECT users.name, addresses.address_type, addresses.address_street, addresses.address_city, addresses.address_state, addresses.address_zip FROM users JOIN addresses ON users.id = addresses.user_id WHERE users.id = $1",
         [req.query.id]);
+
+        // Stream results back one row at a time, push into results array
+        query.on('row', function (row) {
+            results.push(row);
+        });
+
+        // After all data is returned, close connection and return results
+        query.on('end', function () {
+            client.end();
+            return res.json(results);
+        });
+
+        // Handle Errors
+        if (err) {
+            console.log(err);
+        }
+    });
+});
+
+app.get('/orders', function(req,res){
+   //console.log(req.query);
+    var results = [];
+
+    pg.connect(connectionString, function(err, client){
+        var query = client.query("SELECT orders.*, addresses.*, users.* FROM orders JOIN addresses ON addresses.address_id = orders.ship_address_id JOIN users ON users.id = orders.user_id WHERE orders.order_date > $1 AND orders.order_date < $2 AND orders.user_id = $3",
+        [req.query.start.slice(0,10), req.query.end.slice(0,10), req.query.id]);
 
         // Stream results back one row at a time, push into results array
         query.on('row', function (row) {

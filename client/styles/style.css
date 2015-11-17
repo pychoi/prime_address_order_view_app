@@ -1,0 +1,18 @@
+.order-container {
+    margin: 2px 0;
+    padding: 20px 50px;
+    background-color: mintcream;
+    border: 1px solid lightgrey;
+}
+
+.page-header {
+    border: none;
+}
+
+.nav-class {
+    border-bottom: 1px solid lightblue;
+}
+
+.container {
+    margin-top: 20px;
+}
